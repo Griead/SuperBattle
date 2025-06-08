@@ -1,0 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
+#if USING_UNITASK
+using Task = Cysharp.Threading.Tasks.UniTask;
+using Cysharp.Threading.Tasks;
+#else
+using Task = System.Threading.Tasks.Task;
+using System.Threading.Tasks;
+#endif
+using UnityEngine;
+using UnityEngine.UI;
+using Feif.UIFramework;
+using TMPro;
+
+namespace Feif.UI
+{
+    public class #SCRIPTNAME#Data : UIData
+    {
+    }
+
+    [PanelLayer]
+    public class #SCRIPTNAME# : UIComponent<#SCRIPTNAME#Data>
+    {
+        #FIELDS#
+        protected override Task OnCreate()
+        {
+            return Task.CompletedTask;
+        }
+
+        protected override Task OnRefresh()
+        {
+            return Task.CompletedTask;
+        }
+
+        protected override void OnBind()
+        {
+        }
+
+        protected override void OnUnbind()
+        {
+        }
+
+        protected override void OnShow()
+        {
+        }
+
+        protected override void OnHide()
+        {
+        }
+
+        protected override void OnDied()
+        {
+        }
+
+        #FUNCTIONS#
+    }
+}
