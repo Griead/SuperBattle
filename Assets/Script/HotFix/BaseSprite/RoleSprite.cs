@@ -13,7 +13,10 @@ public class RoleSprite : BaseSprite
         base.OnStart();
         
         this.AddEComponent<RoleMoveComponent>(ComponentType.RoleMoveInput, OnMove)
-            .AddEComponent<CameraFollowComponent>(ComponentType.CameraFollow);
+            .AddEComponent( new CameraFollowComponent()
+            {
+                MaxSpeed = _speed,
+            });
     }
 
     private void OnMove(ComponentEventArgs args)

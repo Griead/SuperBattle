@@ -3,4 +3,5 @@ public enum ComponentType
 {
     RoleMoveInput,
     CameraFollow,
+    PathFinding,
 }

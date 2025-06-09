@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Numerics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
@@ -64,10 +62,6 @@ public class CameraFollowComponent : BaseComponent
 
         cameraTransform = this.followCamera.transform;
         lastTargetPosition = Owner.transform.position;
-
-        // 尝试获取最大速度
-        if (Owner is RoleSprite roleSprite)
-            MaxSpeed = roleSprite.Speed;
         
         // 初始化相机位置
         UpdateCameraPosition(0f);
