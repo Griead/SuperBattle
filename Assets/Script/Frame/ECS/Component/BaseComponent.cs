@@ -7,6 +7,7 @@ public abstract class BaseComponent : IComponent
 
     public virtual void Initialize(BaseSprite baseSprite)
     {
+        Owner = baseSprite;
     }
 
     public virtual void Update(float deltaTime)

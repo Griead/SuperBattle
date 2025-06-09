@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Action = System.Action;
@@ -173,7 +174,7 @@ namespace Feif.UIFramework
                     T data = getDataDelegate(i);
                     
                     // 异步实例化对象并添加到列表
-                    tasks.Add(Task.Create(async () =>
+                    tasks.Add(CreateCompatibleTask(async () =>
                     {
                         GameObject newItem = await UIFrame.Instantiate(prefab, parent, data);
                         existingItem.Add(newItem);
@@ -185,6 +186,15 @@ namespace Feif.UIFramework
             
             // 返回更新后的列表
             return existingItem;
+        }
+
+        static Task CreateCompatibleTask(Func<Task> func)
+        {
+#if USING_UNITASK
+    return func(); // UniTask 支持
+#else
+            return Task.Run(func); // .NET Task 需要 Task.Run 来启动异步方法
+#endif
         }
     }
 }

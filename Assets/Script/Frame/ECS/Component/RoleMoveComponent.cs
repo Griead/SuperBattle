@@ -7,7 +7,6 @@ public class RoleMoveComponent : BaseComponent
     public override void Initialize(BaseSprite baseSprite)
     {
         base.Initialize(baseSprite);
-        this.Owner = baseSprite;
     }
 
     public override void Update(float deltaTime)

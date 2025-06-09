@@ -7,9 +7,8 @@ using ObjectTask = Cysharp.Threading.Tasks.UniTask<UnityEngine.Object>;
 using GameObjectTask = Cysharp.Threading.Tasks.UniTask<UnityEngine.GameObject>;
 using Cysharp.Threading.Tasks;
 #else
-using Task = System.Threading.Tasks.Task;
 using ObjectTask = System.Threading.Tasks.Task<UnityEngine.Object>;
-using GameObjectTask = System.Threading.Tasks.Task<UnityEngine.Object>;
+using GameObjectTask = System.Threading.Tasks.Task<UnityEngine.GameObject>;
 using System.Threading.Tasks;
 #endif
 using Feif.UIFramework;
@@ -104,11 +103,11 @@ public partial class ResourcesManager : IGameManager
         {
             if (handle.Status == EOperationStatus.Succeed)
             {
-                return handle.AssetObject as TObject;
+                return handle.AssetObject;
             }
             else
             {
-                Debug.LogError($"Failed to load asset at location: {location}. Error: {handle.LastError}");
+                Debug.LogError($"Error: {handle.LastError}");
                 return null;
             }
         });
@@ -123,11 +122,10 @@ public partial class ResourcesManager : IGameManager
     public static GameObjectTask OnUIAssetRequest(Type type)
     {
         AssetHandle handle = null;
+        var _subFolderName = UIFrame.GetLayer(type);
+        var location = $"Assets/AssetPackages/GameRes/UI/{_subFolderName.GetName()}/{type.Name}/{type.Name}";
         if (!AssetHandleDict.TryGetValue(type, out handle))
         {
-            var _subFolderName = UIFrame.GetLayer(type);
-
-            var location = $"Assets/AssetPackages/GameRes/UI/{_subFolderName.GetName()}/{type.Name}/{type.Name}";
             handle = YooAssetPackage.LoadAssetAsync<GameObject>(location);
         }
 

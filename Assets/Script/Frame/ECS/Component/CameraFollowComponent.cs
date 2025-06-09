@@ -22,10 +22,11 @@ public class CameraFollowComponent : BaseComponent
     private Camera followCamera;
     private Transform cameraTransform;
 
-    public CameraFollowType FollowType { get; set; } = CameraFollowType.Lerp;
-    public float SmoothTime { get; set; } = 1;
+    public CameraFollowType FollowType { get; set; } = CameraFollowType.Damping;
+    public float SmoothTime { get; set; } = 0.3f;
     public float MaxSpeed { get; set; } = 10f;
     public Vector3 Offset { get; set; } = new Vector3(0, 0, -40f);
+    public Vector3 ShakeOffset { get; set; } = new Vector3(0, 0, 0);
     public Vector2 DeadZone { get; set; } = new Vector2(1f, 1f);
     public bool LookAhead { get; set; } = true;
     public float LookAheadDistance { get; set; } = 2f;
@@ -43,7 +44,7 @@ public class CameraFollowComponent : BaseComponent
     private Vector3 lookAheadVelocity;
 
     // 防撕裂相关
-    private bool useFixedUpdate = true;
+    private bool useFixedUpdate = false;
     private Vector3 smoothedPosition;
     private Vector3 interpolationStartPos;
     private Vector3 interpolationTargetPos;
@@ -198,7 +199,12 @@ public class CameraFollowComponent : BaseComponent
                 break;
         }
 
-        cameraTransform.position = smoothedPosition;
+        var smoothPos = smoothedPosition;
+
+        // 震屏偏移
+        smoothPos += ShakeOffset;
+        
+        cameraTransform.position = smoothPos;
     }
 
     #endregion
@@ -272,6 +278,9 @@ public class CameraFollowComponent : BaseComponent
         }
 
         lastTargetPosition = ownerPosition;
+
+        // 震屏偏移
+        cameraTransform.position += ShakeOffset;
     }
 
     #endregion
@@ -323,7 +332,7 @@ public class CameraFollowComponent : BaseComponent
 
     private IEnumerator ShakeCoroutine(float duration, float magnitude)
     {
-        Vector3 originalOffset = Offset;
+        Vector3 originalOffset = ShakeOffset;
         float elapsed = 0f;
         
         while (elapsed < duration)
@@ -331,12 +340,12 @@ public class CameraFollowComponent : BaseComponent
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
             
-            Offset = originalOffset + Random.insideUnitSphere * magnitude;
+            ShakeOffset = originalOffset + Random.insideUnitSphere * magnitude;
             elapsed += Time.deltaTime;
             yield return null;
         }
         
-        Offset = originalOffset;
+        ShakeOffset = originalOffset;
     }
 
     #endregion
