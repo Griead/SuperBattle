@@ -18,7 +18,7 @@ public abstract class BaseComponent : IComponent
     {
     }
 
-    public virtual void OnDestroy()
+    public virtual void OnRelease()
     {
     }
 }

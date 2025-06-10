@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameMono : BaseMono
 {
+    public RoleSprite roleSprite;
+    public AstarPath astarPath;
+    
     protected override void OnStart()
     {
         base.OnStart();
@@ -20,6 +23,27 @@ public class GameMono : BaseMono
 
         Debug.Log("管理器初始化完成");
 
-        GlobalManager.Instance.GetModel<PathFindingManager>();
+        GlobalManager.Instance.GetModel<PathFindingManager>().SetAStarPath(astarPath);
+        GlobalManager.Instance.GetModel<GameGlobalManager>().SetRoleSprite(roleSprite);
+        
+        // string mapPrefabPath = ResourcesPathDefine.MainMap;
+        // GlobalManager.Instance.GetModel<ResourcesManager>().LoadAssetAsync<GameObject>(mapPrefabPath, action: (asset) =>
+        // {
+        //     var go = Object.Instantiate(asset.AssetObject) as GameObject;
+        //     go.transform.position = Vector3.zero;
+        //
+        //     var astarPath = go.GetComponent<AstarPath>();
+        //     GlobalManager.Instance.GetModel<PathFindingManager>().SetAStarPath(astarPath);
+        // });
+        //
+        // string rolePrefabPath = ResourcesPathDefine.RolePrefabPath;
+        // GlobalManager.Instance.GetModel<ResourcesManager>().LoadAssetAsync<GameObject>(rolePrefabPath, action: (asset) =>
+        // {
+        //     var go = Object.Instantiate(asset.AssetObject) as GameObject;
+        //     go.transform.position = Vector3.zero;
+        //     
+        //     var roleSprite = go.GetComponent<RoleSprite>();
+        //     GlobalManager.Instance.GetModel<GameGlobalManager>().SetRoleSprite(roleSprite);
+        // });
     }
 }

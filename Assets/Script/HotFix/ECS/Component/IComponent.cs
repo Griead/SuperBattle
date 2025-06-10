@@ -8,5 +8,5 @@ public interface IComponent
     void Initialize(BaseSprite baseSprite);
     void Update(float deltaTime);
     void FixedUpdate(float deltaTime);
-    void OnDestroy();
+    void OnRelease();
 }

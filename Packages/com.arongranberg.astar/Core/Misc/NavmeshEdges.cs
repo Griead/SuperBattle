@@ -28,7 +28,8 @@ namespace Pathfinding {
 			// Waits for any jobs to finish
 			rwLock.WriteSync().Unlock();
 			obstacleData.Dispose();
-			allocationLock.Dispose();
+			if(allocationLock != default)
+				allocationLock.Dispose();
 		}
 
 		void Init () {

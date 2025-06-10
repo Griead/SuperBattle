@@ -1,10 +1,8 @@
-using UnityEngine;
-using UnityEngine.AI;
+
+using Pathfinding;
 
 public class MonsterSprite : BaseSprite, IPoolable
 {
-    private NavMeshAgent Agent;
-    public BaseSprite Target;
     protected override void OnStart()
     {
         base.OnStart();
@@ -14,13 +12,12 @@ public class MonsterSprite : BaseSprite, IPoolable
 
     private void SetData()
     {
-        var pathFindingComponent = new PathFindingComponent()
+        this.AddEComponent(new PathFindingComponent()
         {
-            Agent = this.Agent,
-        };
-        
-        pathFindingComponent.SetTarget(Target.transform);
-        this.AddEComponent(pathFindingComponent);
+            Target = GlobalManager.Instance.GetModel<GameGlobalManager>().GetRoleSprite().transform,
+            Seeker = this.GetComponent<Seeker>(),
+            Speed = 20f
+        });
     }
 
     public void OnSpawn()

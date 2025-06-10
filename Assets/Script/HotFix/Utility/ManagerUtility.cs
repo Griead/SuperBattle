@@ -17,6 +17,8 @@ public class ManagerUtility
     {
         // 全局管理器初始化
         GlobalManager.Instance.Init();
+
+        GlobalManager.Instance.RegisterModule<GameGlobalManager>();
         
         // 宏定义
         GlobalManager.Instance.RegisterModule<MacroDefinitionManager>();

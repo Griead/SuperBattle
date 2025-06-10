@@ -46,7 +46,7 @@ public class BaseSprite : BaseMono
     {
         if (_components.TryGetValue(type, out var component))
         {
-            component.OnDestroy();
+            component.OnRelease();
             _components.Remove(type);
             _moduleCallbacks.Remove(type);
         }
@@ -117,7 +117,7 @@ public class BaseSprite : BaseMono
     {
         foreach (var component in _components.Values)
         {
-            component.OnDestroy();
+            component.OnRelease();
         }
         
         _components.Clear();
