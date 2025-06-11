@@ -12,17 +12,36 @@ public class RoleSprite : BaseSprite
     {
         base.OnStart();
         
-        this.AddEComponent<RoleMoveComponent>(ComponentType.RoleMoveInput, OnMove)
-            .AddEComponent( new CameraFollowComponent()
-            {
-                MaxSpeed = _speed,
-            });
+        this.AddEComponent<RoleMoveComponent>(ComponentType.RoleMoveInput, OnMoveEvent)
+            .AddEComponent( new CameraFollowComponent() { MaxSpeed = _speed })
+            .AddEComponent<HpComponent>(ComponentType.Hp, OnHpEvent);
     }
 
-    private void OnMove(ComponentEventArgs args)
+    private void OnMoveEvent(ComponentEventArgs args)
     {
         var moveArgs = args as RoleMoveInputEventArgs;
 
         moveArgs.Sender.transform.position += new Vector3(moveArgs.Direction.x, moveArgs.Direction.y) * Speed * moveArgs.DeltaTime;
+    }
+
+    private void OnHpEvent(ComponentEventArgs args)
+    {
+        var hpArgs = args as HpEventArgs;
+        
+        switch (hpArgs.EventType)
+        {
+            case HpEventType.TakeDamage:
+                Debug.Log($"角色{hpArgs.Sender.name}被攻击，当前血量{hpArgs.CurrentHp}");
+                break;
+            case HpEventType.Heal:
+                Debug.Log($"角色{hpArgs.Sender.name}被治疗，当前血量{hpArgs.CurrentHp}");
+                break;
+            case HpEventType.Die:
+                Debug.Log($"角色{hpArgs.Sender.name}死亡");
+                break;
+            case HpEventType.HpChanged:
+                Debug.Log($"角色{hpArgs.Sender.name}血量变化，当前血量{hpArgs.CurrentHp}");
+                break;
+        }
     }
 }

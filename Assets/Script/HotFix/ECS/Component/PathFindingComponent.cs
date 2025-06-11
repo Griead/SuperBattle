@@ -9,8 +9,6 @@ public class PathFindingComponent : BaseComponent
     public float Speed { get; set; } = 20f;
     // 寻路目标
     public Transform Target { get; set; }
-
-
     private Path Path { get; set; }
     private int CurrentWaypoint { get; set; }
 
