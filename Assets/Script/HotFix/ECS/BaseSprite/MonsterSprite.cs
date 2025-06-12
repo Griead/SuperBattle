@@ -20,8 +20,10 @@ public class MonsterSprite : BaseSprite, IPoolable
             Speed = 20f
         };
         
-        this.AddEComponent(pathFindingComponent);
-        this.AddEComponent<HpComponent>(ComponentType.Hp, OnHpEvent);
+        this.AddEComponent(pathFindingComponent)
+            .AddEComponent<HpComponent>(ComponentType.Hp, OnHpEvent)
+            .AddEComponent(new CampComponent(CampType.Monster))
+            ;
     }
 
     public void OnSpawn()

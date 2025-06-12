@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RoleSprite : BaseSprite
@@ -6,15 +7,18 @@ public class RoleSprite : BaseSprite
     /// 速度
     /// </summary>
     private float _speed = 50f;
+
     public float Speed => _speed;
-    
+
     protected override void OnStart()
     {
         base.OnStart();
-        
-        this.AddEComponent<RoleMoveComponent>(ComponentType.RoleMoveInput, OnMoveEvent)
-            .AddEComponent( new CameraFollowComponent() { MaxSpeed = _speed })
-            .AddEComponent<HpComponent>(ComponentType.Hp, OnHpEvent);
+
+        this.AddEComponent<RoleMoveComponent>(ComponentType.RoleMove, OnMoveEvent)
+            .AddEComponent(new CameraFollowComponent() { MaxSpeed = _speed })
+            .AddEComponent<HpComponent>(ComponentType.Hp, OnHpEvent)
+            .AddEComponent(new CampComponent(CampType.Role))
+            ;
     }
 
     private void OnMoveEvent(ComponentEventArgs args)
@@ -27,7 +31,7 @@ public class RoleSprite : BaseSprite
     private void OnHpEvent(ComponentEventArgs args)
     {
         var hpArgs = args as HpEventArgs;
-        
+
         switch (hpArgs.EventType)
         {
             case HpEventType.TakeDamage:

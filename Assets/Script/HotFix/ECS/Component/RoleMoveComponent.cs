@@ -2,12 +2,7 @@ using UnityEngine;
 
 public class RoleMoveComponent : BaseComponent
 {
-    public override ComponentType Type => ComponentType.RoleMoveInput;
-    
-    public override void Initialize(BaseSprite baseSprite)
-    {
-        base.Initialize(baseSprite);
-    }
+    public override ComponentType Type => ComponentType.RoleMove;
 
     public override void Update(float deltaTime)
     {
@@ -25,7 +20,7 @@ public class RoleMoveComponent : BaseComponent
                 DeltaTime = deltaTime,
             };
         
-            Owner.TriggerEComponentEvent(ComponentType.RoleMoveInput, args);
+            Owner.TriggerEComponentEvent(ComponentType.RoleMove, args);
         }
     }
 }
