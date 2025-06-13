@@ -42,6 +42,7 @@ public class CircularBlade : IAutoWeapon
         int totalCount = 0;
         float totalSpeed = 0f;
         float totalDamage = 0f;
+        float totalDuringTime = 0f;
 
         int count = LevelConfigs?.Count ?? 0;
         for (int i = 0; i < count; i++)
@@ -49,10 +50,11 @@ public class CircularBlade : IAutoWeapon
             totalCount += LevelConfigs[i].AccumulationCount;
             totalSpeed += LevelConfigs[i].AccumulationRotateSpeed;
             totalDamage += LevelConfigs[i].AccumulationDamage;
+            totalDuringTime += LevelConfigs[i].AccumulationDuringTime;
 
             if (!string.IsNullOrEmpty(LevelConfigs[i].NewBladePrefabPath))
                 newBladePrefabPath = LevelConfigs[i].NewBladePrefabPath;
-            
+            newCoolDown = LevelConfigs[i].NewCoolDown;
         }
 
         GlobalManager.Instance.GetModel<ResourcesManager>().LoadAssetAsync<GameObject>(newBladePrefabPath, action: (assetHandle) =>
@@ -62,6 +64,12 @@ public class CircularBlade : IAutoWeapon
             {
                 var go = Object.Instantiate(model);
                 
+                var collider = go.GetComponent<Collider2D>();
+                if (collider == null)
+                {
+                    collider = go.AddComponent<CircleCollider2D>();
+                    collider.isTrigger = true;
+                }
             }
         });
     }

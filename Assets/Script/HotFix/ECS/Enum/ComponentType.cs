@@ -7,4 +7,6 @@ public enum ComponentType
     Hp,
     Camp,
     AutoWeapon,
+    DamageDealer,
+    DamageReceiver,
 }
