@@ -52,7 +52,7 @@ public class AttackData
     /// </summary>
     public AttackRangeData rangeData;
 
-    public AttackData(string id, float dmg, DamageType type = DamageType.Normal)
+    public AttackData(string id, float dmg, AttackRangeData rangeData, DamageType type = DamageType.Normal)
     {
         attackId = id;
         damage = dmg;
@@ -62,6 +62,6 @@ public class AttackData
         duration = 1f;
         layerMask = -1;
         canHitSameTarget = false;
-        rangeData = AttackRangeData.Circle(2f); // 默认圆形范围
+        rangeData = rangeData; // 默认圆形范围
     }
 }

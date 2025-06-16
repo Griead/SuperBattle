@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class RoleSprite : BaseSprite
 {
-    /// <summary>
-    /// 速度
-    /// </summary>
+    /// <summary> 速度 </summary>
     private float _speed = 50f;
 
-    public float Speed => _speed;
+    /// <summary> 攻击点位 </summary>
+    private Transform _attackTran;
 
     protected override void OnStart()
     {
@@ -18,6 +17,7 @@ public class RoleSprite : BaseSprite
             .AddEComponent(new CameraFollowComponent() { MaxSpeed = _speed })
             .AddEComponent<HpComponent>(ComponentType.Hp, OnHpEvent)
             .AddEComponent(new CampComponent(CampType.Role))
+            .AddEComponent(new DamageDealerComponent())
             ;
     }
 
@@ -25,7 +25,7 @@ public class RoleSprite : BaseSprite
     {
         var moveArgs = args as RoleMoveInputEventArgs;
 
-        moveArgs.Sender.transform.position += new Vector3(moveArgs.Direction.x, moveArgs.Direction.y) * Speed * moveArgs.DeltaTime;
+        moveArgs.Sender.transform.position += new Vector3(moveArgs.Direction.x, moveArgs.Direction.y) * _speed * moveArgs.DeltaTime;
     }
 
     private void OnHpEvent(ComponentEventArgs args)
